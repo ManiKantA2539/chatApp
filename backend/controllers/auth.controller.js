@@ -52,11 +52,11 @@ export const login = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: "You dont have account with that email!!!" });
+            return res.status(400).json({ message: "You dont have account with that email !" });
         }
         const isPassword = await bcrypt.compare(password, user.password);
         if (!isPassword) {
-            return res.status(400).json({ message: "Invalid Password!!!" });
+            return res.status(400).json({ message: "Invalid Password !" });
         }
         generateToken(user._id, res);
         return res.status(200).json({
@@ -88,7 +88,7 @@ export const updateProfile = async (req, res) => {
         if (!profilePic) {
             res.status(400).json({ message: "Profile Photo is required" });
         }
-        const user_id = req.user.userId;
+        const user_id = req.user.id;
         const uploadedResponse = await cloudinary.uploader.upload(profilePic);
 
         const user = await User.findByIdAndUpdate(user_id, { profilePic: uploadedResponse.secure_url }, { new: true });

@@ -28,16 +28,19 @@ const App = () => {
   }
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={authState ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/signup" element={!authState ? <SignUp /> : <Navigate to="/" />} />
-        <Route path="/login" element={!authState ? <Login /> : <Navigate to="/" />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/profile" element={!authState ? <Profile /> : <Navigate to="/login" />} />
-      </Routes>
+      <div style={{ height: "100vh" }}>
+        <Navbar />
 
-      <Toaster />
+        <Routes>
+          <Route path="/" element={authState ? <Home /> : <Navigate to="/login" />} />
+          <Route path="/signup" element={!authState ? <SignUp /> : <Navigate to="/" />} />
+          <Route path="/login" element={!authState ? <Login /> : <Navigate to="/" />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={authState ? <Profile /> : <Navigate to="/login" />} />
+        </Routes>
+
+        <Toaster />
+      </div>
     </>
   )
 }

@@ -3,6 +3,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useAuth } from "../store/useAuth"
 import toast from "react-hot-toast"
+import Earth from "./Globe"
+import { Link } from "react-router-dom"
 
 const SignUp = () => {
     const { register, formState: { errors }, watch, handleSubmit } = useForm()
@@ -31,8 +33,8 @@ const SignUp = () => {
 
     return (
         <>
-            <div className="flex flex-row justify-center items-center">
-                <div style={{ width: "100%", height: "100vh", backgroundColor: "#98a1" }}
+            <div className="flex flex-row justify-center items-center bg-(#98a1)">
+                <div style={{ width: "100%", height: "100vh" }}
                     className="flex justify-center items-center flex-col">
                     <div className="flex flex-col items-center">
                         <MessageSquare />
@@ -66,18 +68,23 @@ const SignUp = () => {
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
-                        {errors.Password && <span className="text-red-400">The Email is required</span>}
+                        {errors.Password && <span className="text-red-400">The Password is required</span>}
 
                         <button type="submit"
-                            className="text-gray-700 border m-auto p-2 rounded-lg bg-green-300 my-5"
+                            className="text-gray-700 border p-2 rounded-lg bg-blue-400 my-5"
                             disabled={isSigningUp}>
                             {isSigningUp ? (<Loader2 className="animate-spin" />) : ("signUp")}
                         </button>
                     </form>
+                    <span className="text-center gap-0">Already have an Account?{" "}
+                        <Link to="/login" className="link link-primary">
+                            Sign in
+                        </Link>
+                    </span>
                 </div>
-                <div style={{ width: "100%", height: "100vh", backgroundColor: "#fa12" }}
+                <div style={{ width: "100%", height: "100vh" }}
                     className="flex justify-center items-center">
-                    b
+                    <Earth />
                 </div>
             </div >
         </>
