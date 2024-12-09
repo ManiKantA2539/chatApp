@@ -28,7 +28,7 @@ const App = () => {
   }
   return (
     <>
-      <div style={{ height: "100vh" }}>
+      <div data-theme="dark">
         <Navbar />
 
         <Routes>

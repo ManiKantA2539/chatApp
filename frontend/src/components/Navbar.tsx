@@ -7,32 +7,36 @@ const Navbar = () => {
     const { authState, logOut } = useAuth();
     return (
         <>
-            <div className='flex justify-between flex-row h-10vh p-5'>
+            <div className='flex justify-between flex-row h-10vh p-5 bg-transparent'>
                 <Link to="/">
                     <div className='flex flex-row cursor-pointer'>
                         <MessagesSquare />
                         <span className='mx-2'>ChatApp</span>
                     </div>
                 </Link>
-                <div className='flex flex-row gap-10'>
-                    {authState &&
-                        <>
-                            <Tooltip title="Logout">
-                                <LogOut style={{ cursor: "pointer" }} onClick={logOut} />
-                            </Tooltip>
-                            <Link to={"/profile"}>
-                                <Tooltip title="Profile">
-                                    <User style={{ cursor: "pointer" }} />
-                                </Tooltip>
-                            </Link>
-                        </>
-
-                    }
-                    <Link to="/settings">
+                <div className='flex flex-row items-center space-x-4'>
+                    <Link to="/settings" className='flex items-center space-x-1'>
                         <Tooltip title="Settings">
-                            <Settings style={{ cursor: "pointer" }} />
+                            <Settings className='cursor-pointer' />
                         </Tooltip>
+                        <span className='cursor-pointer'>Settings</span>
                     </Link>
+                    {authState && (
+                        <>
+                            <Link to="/profile" className='flex items-center space-x-1'>
+                                <Tooltip title="Profile">
+                                    <User className='cursor-pointer' />
+                                </Tooltip>
+                                <span className='cursor-pointer'>Profile</span>
+                            </Link>
+                            <div className='flex items-center space-x-1 cursor-pointer' onClick={logOut}>
+                                <Tooltip title="Logout">
+                                    <LogOut className='cursor-pointer' />
+                                </Tooltip>
+                                <span>Logout</span>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
