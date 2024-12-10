@@ -1,42 +1,24 @@
-import { useEffect, useState } from "react";
-import { useChat } from "../store/useChat"
-import Card from "./ReusableComponents/Card";
-import { Loader2 } from "lucide-react";
-import Profile from "./Profile";
-
-interface User {
-    fullName: string;
-    profilePic: string;
-
-}
+import { useChat } from "../store/useChat";
+import Sidebar from "./Sidebar";
+import ChatContainer from "./ChatContainer";
+import NoChatContainer from "./NoChatContainer";
 
 const Home = () => {
-    const { users, isUsersLoading, getUsers } = useChat();
+	const { selectedUser } = useChat();
+	return (
+		<>
+			<div className="h-screen bg-base-200">
+				<div className="flex items-center justify-center gap-2 pt-10 px-4">
+					<div className="bg-base-100 rounded-lg shadow-xl w-full h-[calc(100vh-8rem)]">
+						<div className="flex flex-row h-full rounded-lg overflow-hidden">
+							<Sidebar />
+							{!selectedUser ? <NoChatContainer /> : <ChatContainer />}
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
+};
 
-    useEffect(() => {
-        try {
-            getUsers();
-        } catch (error) {
-
-        }
-    }, [])
-    console.log(users);
-    return (
-        <>
-            <div className="h-screen bg-base-200">
-                <div className="flex flex-col gap-2 mx-4">
-                    {isUsersLoading ? <Loader2 className="flex items-center" /> :
-                        (
-                            users && users.map((user: any, index) => (
-                                <div key={index}>
-                                    <Card fullName={user.fullName} userStatus={"offline"} image={user.profilePic} />
-                                </div>
-                            )))}
-
-                </div>
-            </div>
-        </>
-    )
-}
-
-export default Home
+export default Home;
