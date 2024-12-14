@@ -9,10 +9,14 @@ const Home = () => {
 		<>
 			<div className="h-screen bg-base-200">
 				<div className="flex items-center justify-center gap-2 pt-10 px-4">
-					<div className="bg-base-100 rounded-lg shadow-xl w-full h-[calc(100vh-8rem)]">
+					<div className="bg-base-100 rounded-lg shadow-xl w-full h-[calc(100vh-7rem)]">
 						<div className="flex flex-row h-full rounded-lg overflow-hidden">
 							<Sidebar />
-							{!selectedUser ? <NoChatContainer /> : <ChatContainer />}
+							{!selectedUser ? (
+								<NoChatContainer />
+							) : (
+								<ChatContainer selectedUser={selectedUser} />
+							)}
 						</div>
 					</div>
 				</div>
