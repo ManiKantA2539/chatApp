@@ -33,7 +33,7 @@ export const useAuth = create<AuthStore>((set) => ({
     checkAuthState: async () => {
         try {
             const response = await instance.get("/auth/check");
-            console.log(response);
+            // console.log(response);
             set({ authState: response.data });
             set({ isCheckingAuth: false })
         } catch (error) {
@@ -53,7 +53,7 @@ export const useAuth = create<AuthStore>((set) => ({
             });
             toast.success("Account created")
             set({ authState: response.data })
-            console.log(response)
+            // console.log(response)
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 toast.error(`Error in signUp - ${error.response.data.message}`)
@@ -73,7 +73,7 @@ export const useAuth = create<AuthStore>((set) => ({
                 email: data.email,
                 password: data.password
             })
-            console.log(response)
+            // console.log(response)
             toast.success("LogIn success")
             set({ authState: response.data })
         } catch (error) {
@@ -110,7 +110,7 @@ export const useAuth = create<AuthStore>((set) => ({
                 profilePic: data.image
             })
             toast.success("Image updated successfully");
-            console.log(response)
+            // console.log(response)
             set({ authState: response.data })
         } catch (error) {
             console.log(error);

@@ -22,11 +22,13 @@ const Card: React.FC<Card> = ({
 					transition-colors ${selectedUser ? "bg-base-300 ring-1 ring-base-300" : ""} `}
 				style={sx}
 			>
-				<img
-					src={image ? image : "src/assets/react.svg"}
-					alt=""
-					className={`rounded-full size-${sx ? "12" : "8"} bg-black object-cover`}
-				/>
+				<div className="h-[60px] w-[60px] content-center rounded-full">
+					<img
+						src={image ? image : "src/assets/react.svg"}
+						alt=""
+						className={`rounded-full size-${sx ? "12" : "8"} bg-black object-contain`}
+					/>
+				</div>
 				<div className="flex flex-col">
 					<h3>{fullName}</h3>
 					<p>{userStatus}</p>

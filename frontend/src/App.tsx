@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar.tsx";
+import SpeechToText from "./components/SpeechToText.tsx";
 
 const App = () => {
 	const { authState, checkAuthState, isCheckingAuth } = useAuth();
@@ -17,7 +18,7 @@ const App = () => {
 		checkAuthState();
 	}, [checkAuthState]);
 
-	console.log(authState);
+	// console.log(authState);
 
 	if (isCheckingAuth) {
 		return (
@@ -48,6 +49,10 @@ const App = () => {
 					<Route
 						path="/profile"
 						element={authState ? <Profile /> : <Navigate to="/login" />}
+					/>
+					<Route
+						path="/audio"
+						element={authState ? <SpeechToText /> : <Navigate to="/audio" />}
 					/>
 				</Routes>
 
