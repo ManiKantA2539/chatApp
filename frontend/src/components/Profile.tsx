@@ -6,6 +6,7 @@ const Profile = () => {
     const { authState, isUpdatingUser, updateProfile } = useAuth();
     console.log(authState)
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const handleImageUpload = (e: any) => {
         const file = e.target.files[0];
         if (!file) return;

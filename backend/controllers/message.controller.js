@@ -27,7 +27,9 @@ export const getMessages = async (req, res) => {
 
 export const sendMessages = async (req, res) => {
     try {
-        const { image, text, senderId, receiverId } = req.body;
+        const receiverId = req?.params?.id;
+        const senderId = req.user._id;
+        const { image, text } = req.body;
         let imgUrl;
         if (image) {
             const response = await cloudinary.uploader.upload(image);

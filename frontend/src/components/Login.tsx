@@ -7,7 +7,7 @@ import toast from "react-hot-toast"
 import { Link } from "react-router-dom"
 
 const Login = () => {
-    const { formState: { errors }, register, handleSubmit, watch } = useForm()
+    const { formState: { errors }, register, handleSubmit } = useForm()
     const { isLoggingIn, logIn } = useAuth();
     const [formData, setFormData] = useState({
         email: "",

@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.13.5",
     "@mui/material": "^6.1.10",
     "axios": "^1.7.8",
+    "dayjs": "^1.11.13",
     "lucide-react": "^0.468.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.41.0",
     "react": "^18.3.1",
