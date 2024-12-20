@@ -14,7 +14,6 @@ const Card: React.FC<Card> = ({
 	selectedUser,
 	sx,
 }) => {
-	console.log(sx);
 	return (
 		<>
 			<div

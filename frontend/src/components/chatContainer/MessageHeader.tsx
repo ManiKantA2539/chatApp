@@ -8,7 +8,7 @@ const MessageHeader = ({ selectedUser }: { selectedUser: User }) => {
     const { setSelectedUser } = useChat();
     return (
         <>
-            <Card fullName={fullName} userStatus={"offline"} image={profilePic} />
+            <Card fullName={fullName} userStatus={"offline"} image={profilePic} sx={{height:"10px"}} />
             <X
                 className="w-6 h-6 text-gray-500 cursor-pointer"
                 onClick={() => setSelectedUser(null)}

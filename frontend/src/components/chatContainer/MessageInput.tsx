@@ -21,6 +21,7 @@ const MessageInput = ({ selectedUser }: { selectedUser: User }) => {
                 image:imagePreview,
                 receiverId:selectedUser._id
                 })
+            await getMessages({id:selectedUser._id})
 
             setMessage("");
             setImagepreview(null);
@@ -58,7 +59,7 @@ const MessageInput = ({ selectedUser }: { selectedUser: User }) => {
             {imagePreview && (
                 <div className='mb-3 flex items-start gap-2'>
                     <div className='relative'>
-                        <img src={imagePreview} alt="Preview" className='w-20 h-20 object-cover rounded-lg border border-gray-950'/>
+                        <img src={`${imagePreview}`} alt="Preview" className='w-20 h-20 object-cover rounded-lg border border-gray-950'/>
                         <button type="button" onClick={handleRemoveImage} className='w-5 h-5 absolute -top-1.5 -right-1.5 rounded-lg flex items-center justify-center bg-slate-300'>
                             <X color='black' className='size-3'/>
                         </button>

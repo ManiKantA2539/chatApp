@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios"
 
 
 interface AuthStore {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     authState: any
     isCheckingAuth: boolean
     isSigningUp: boolean

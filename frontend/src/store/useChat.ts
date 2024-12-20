@@ -2,6 +2,7 @@ import { create } from "zustand";
 import instance from "../lib/axios";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { ReactNode } from "react";
 
 interface data {
 	id: string | null;
@@ -13,7 +14,7 @@ interface messageDetails {
 	receiverId?: data["id"]
     image?: string | ArrayBuffer | null | undefined
 	text?: string
-	created_at?:Date
+	createdAt?:any
 }
 
 interface ChatStore {
@@ -59,7 +60,7 @@ export const useChat = create<ChatStore>((set, get) => ({
 		try {
 			set({ isMessagesLoading: true });
 			const response = await instance.get(`message/${data.id}`);
-			set({ messages: response.data });
+			set({ messages: response?.data?.data });
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				toast.error(

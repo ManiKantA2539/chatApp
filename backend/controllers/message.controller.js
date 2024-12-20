@@ -19,6 +19,7 @@ export const getMessages = async (req, res) => {
         const receiver_id = req.params.id;
         const user_messages = await Message.find({ $or: [{ senderId: sender_id, receiverId: receiver_id }, { receiverId: sender_id, senderId: receiver_id }] });
         res.status(200).json({ data: user_messages });
+        console.log(user_messages)
     } catch (error) {
         console.log(error);
         res.status(500).json("Couldn't find messages. ", { message: error.message });
