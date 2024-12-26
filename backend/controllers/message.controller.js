@@ -1,6 +1,7 @@
 import cloudinary from "../lib/cloudinary.js";
 import { Message } from "../models/message.model.js";
 import User from "../models/user.model.js";
+import mongoose from "mongoose";
 
 export const getSidebarUsers = async (req, res) => {
     try {
@@ -16,10 +17,10 @@ export const getSidebarUsers = async (req, res) => {
 export const getMessages = async (req, res) => {
     try {
         const sender_id = req.user._id;
-        const receiver_id = req.params.id;
+        const receiver_id = new mongoose.Types.ObjectId(req.params.id);
+        console.log(sender_id,receiver_id)
         const user_messages = await Message.find({ $or: [{ senderId: sender_id, receiverId: receiver_id }, { receiverId: sender_id, senderId: receiver_id }] });
         res.status(200).json({ data: user_messages });
-        console.log(user_messages)
     } catch (error) {
         console.log(error);
         res.status(500).json("Couldn't find messages. ", { message: error.message });

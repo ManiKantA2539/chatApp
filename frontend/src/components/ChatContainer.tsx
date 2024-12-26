@@ -15,7 +15,7 @@ const ChatContainer = ({ selectedUser }: { selectedUser: User }) => {
 	const { authState } = useAuth();
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-
+		console.log(`fecthing messages of ${selectedUser._id}`);
 		const fetchMessages = async () => {
 			try {
 				await getMessages({id:selectedUser._id});
@@ -38,11 +38,13 @@ const ChatContainer = ({ selectedUser }: { selectedUser: User }) => {
 						{messages.map((message) => (
 							<div
 								key={message._id}
-								className={`chat ${message.senderId === authState._id ? "chat-end":"chat-start"}`}
+								className={`chat ${message.senderId === authState.id ? "chat-end":"chat-start"}`}
 							>
+							
+
 								<div className="chat-image avatar">
 									<div className="size-10 rounded-full border">
-										<img src={`${message.senderId === authState?._id ? authState.profilePic || "src/assets/react.svg" : selectedUser.profilePic || "src/assets/react.svg"}`} alt="profilePic" />
+										<img src={`${message.senderId === authState?.id ? authState.profilePic || "src/assets/react.svg" : selectedUser.profilePic || "src/assets/react.svg"}`} alt="profilePic" />
 									</div>
 								</div>
 								<div className="chat-header">
@@ -59,7 +61,7 @@ const ChatContainer = ({ selectedUser }: { selectedUser: User }) => {
 						))}
 					</div>
 				)}
-			{/* </div> */}
+			{/* </div>v */}
 			<MessageInput selectedUser={selectedUser} />
 		</div>
 	);

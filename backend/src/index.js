@@ -18,11 +18,18 @@ app.use(express.json());
 // Use body-parser middleware
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-}));
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Allow requests with no origin (e.g., mobile apps or Postman)
+        if (!origin) return callback(null, true);
+        callback(null, true); // Allow all origins
+    },
+    credentials: true, // Allow credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods if needed
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+};
 
+app.use(cors(corsOptions));
 // Routes
 app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)

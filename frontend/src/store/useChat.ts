@@ -14,6 +14,7 @@ interface messageDetails {
 	receiverId?: data["id"]
     image?: string | ArrayBuffer | null | undefined
 	text?: string
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	createdAt?:any
 }
 
