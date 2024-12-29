@@ -3,6 +3,8 @@ import instance from "../lib/axios";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { ReactNode } from "react";
+import { useAuth } from "./useAuth";
+import { Socket } from "socket.io-client";
 
 interface data {
 	id: string | null;
@@ -18,12 +20,20 @@ interface messageDetails {
 	createdAt?:any
 }
 
+interface user{
+	_id:string
+	fullName:string
+	profilePic:string
+	emsil:string
+}
+
 interface ChatStore {
 	// biome-ignore lint/complexity/noBannedTypes: <explanation>
 	messages: Array<messageDetails> ;
 	// biome-ignore lint/complexity/noBannedTypes: <explanation>
-	users: Array<Object> | null;
-	selectedUser: null;
+	users: Array<user> | null;
+	// biome-ignore lint/complexity/noBannedTypes: <explanation>
+	selectedUser: user | null;
 	isUsersLoading: boolean | null;
 	isMessagesLoading: boolean | null;
 	isSendingMessage: boolean | null;
@@ -31,6 +41,8 @@ interface ChatStore {
 	getMessages: (data: data) => Promise<void>;
 	sendMessages: (message: messageDetails) => Promise<void>;
 	setSelectedUser: (selectedUser: ChatStore["selectedUser"]) => void;
+	onlineMessages:()=>void
+	noOnlineMessages:()=>void
 }
 
 export const useChat = create<ChatStore>((set, get) => ({
@@ -83,12 +95,13 @@ export const useChat = create<ChatStore>((set, get) => ({
 				image,
 				text
 			})
-
-			set({ messages: [...messages, response.data] })
+			
+			set({ messages: [...messages, response.data.data] })
+			console.log(messages)
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				toast.error(
-					`Error while sending message . ${error?.response?.data.message}`,
+					`Error while sending message . ${error?.response?.data}`,
 				);
 			} else {
 				toast.error("Error while sending message.");
@@ -97,5 +110,22 @@ export const useChat = create<ChatStore>((set, get) => ({
 			set({ isSendingMessage: false });
 		}
 	},
-	setSelectedUser: (selectedUser: null | undefined) => set({ selectedUser }),
+	onlineMessages:()=>{
+		const {selectedUser} = get()
+		if(!selectedUser) return
+		const socket = useAuth.getState().socket;
+		
+		// biome-ignore lint/complexity/noBannedTypes: <explanation>
+		socket.on("newMessage",(message: messageDetails)=>{
+			console.log(selectedUser)
+			if(message.senderId !== selectedUser._id) return
+			set({messages:[...get().messages,message]})
+		})
+		console.log("messages",get().messages)
+	},
+	noOnlineMessages:()=>{
+		const socket = useAuth.getState().socket;
+		socket.off("newMessage")
+	},
+	setSelectedUser: (selectedUser: user | null) => set({ selectedUser }),
 }));

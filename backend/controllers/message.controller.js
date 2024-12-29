@@ -1,4 +1,5 @@
 import cloudinary from "../lib/cloudinary.js";
+import { getSocketIdByUserId, io } from "../lib/socket.js";
 import { Message } from "../models/message.model.js";
 import User from "../models/user.model.js";
 import mongoose from "mongoose";
@@ -39,6 +40,12 @@ export const sendMessages = async (req, res) => {
         }
         const message = new Message({ image: imgUrl, text, senderId, receiverId });
         await message.save();
+        const receiverSocketId = getSocketIdByUserId(receiverId);
+        if(receiverSocketId){
+            console.log("message",message);
+            io.to(receiverSocketId).emit("newMessage",message);
+        }
+        
         res.status(201).json({ data: message });
     } catch (error) {
         res.status(500).json("Couldn't create message. ", { message: error.message });

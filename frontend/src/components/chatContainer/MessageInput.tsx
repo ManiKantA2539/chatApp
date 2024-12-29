@@ -9,7 +9,7 @@ const MessageInput = ({ selectedUser }: { selectedUser: User }) => {
     const [message, setMessage] = useState<string>("");
     const [imagePreview, setImagepreview] = useState<null|string|undefined|ArrayBuffer>(null);
     const fileInputRef = useRef(null);
-    const { getUsers, getMessages, isMessagesLoading, isUsersLoading, sendMessages, isSendingMessage } = useChat();
+    const { getUsers, isMessagesLoading, isUsersLoading, sendMessages, isSendingMessage } = useChat();
     const handleSubmit = async (e:FormEvent) => {
         e.preventDefault();
         if(!message.trim() && !imagePreview){
@@ -21,7 +21,7 @@ const MessageInput = ({ selectedUser }: { selectedUser: User }) => {
                 image:imagePreview,
                 receiverId:selectedUser._id
                 })
-            await getMessages({id:selectedUser._id})
+            
 
             setMessage("");
             setImagepreview(null);

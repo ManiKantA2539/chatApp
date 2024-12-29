@@ -6,10 +6,10 @@ import { connectDB } from '../lib/db.lib.js';
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import {app,server} from "../lib/socket.js"
 
 dotenv.config();
 
-const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
@@ -36,7 +36,7 @@ app.use("/api/message", messageRoutes)
 
 app.get('/', (req, res) => { res.send('Welcome to chatApp!') });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
     connectDB();
 })

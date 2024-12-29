@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Card from "./ReusableComponents/Card";
-import { Loader2, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { useChat } from "../store/useChat";
 import SidebarSkeleton from "./SkeletonLoaders/SidebarSkeleton"; // Import SidebarSkeleton
+import { useAuth } from "../store/useAuth";
 
 export interface User {
 	fullName: string;
@@ -13,13 +14,21 @@ export interface User {
 const Sidebar = () => {
 	const { users, isUsersLoading, getUsers, selectedUser, setSelectedUser } =
 		useChat();
-
+	const selectedUserTyped = selectedUser as User | null;
+	const { onlineUsers } = useAuth();
+	const [showOnlineusers, setShowOnlineUsers] = useState<boolean>(false);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	useEffect(() => {
 		try {
 			getUsers();
-		} catch (error) {}
+		} catch (error) {
+			console.log("error while fetching users", error);
+		}
 	}, [getUsers]);
 
+	const filteredUsers = showOnlineusers
+		? users?.filter((user) => onlineUsers?.includes(user._id))
+		: users;
 	return (
 		<div>
 			{isUsersLoading ? (
@@ -32,10 +41,22 @@ const Sidebar = () => {
 							<span className="font-medium lg:block hidden">Contacts</span>
 						</div>
 					</div>
-
 					<div className="overflow-y-auto w-full py-3">
+						<div className="flex justify-center gap-1">
+							<label className="flex gap-1">
+								<input
+									type="checkbox"
+									onChange={(e) => setShowOnlineUsers(e.target.checked)}
+									checked={showOnlineusers}
+								/>
+								<span className="text-center opacity-50 ">
+									show Online ({onlineUsers?.length - 1}
+									{" online"})
+								</span>
+							</label>
+						</div>
 						{/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
-						{users?.map((user: any, index) => (
+						{filteredUsers?.map((user: any, index) => (
 							<div
 								key={`${index + 1}`}
 								onClick={() => setSelectedUser(user)}
@@ -43,13 +64,22 @@ const Sidebar = () => {
 							>
 								<Card
 									fullName={user.fullName}
-									userStatus={"offline"}
+									userStatus={
+										onlineUsers?.includes(user._id) ? "online" : "offline"
+									}
 									image={user.profilePic}
 									sx={{ cursor: "pointer" }}
-									selectedUser={selectedUser === user._id}
+									selectedUser={selectedUserTyped?._id === user._id}
 								/>
 							</div>
 						))}
+						{filteredUsers?.length === 0 && (
+							<div>
+								<p className="text-center text-base-500 mt-10">
+									No users found
+								</p>
+							</div>
+						)}
 					</div>
 				</aside>
 			)}

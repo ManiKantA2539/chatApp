@@ -21,11 +21,18 @@ const Card: React.FC<Card> = ({
 					transition-colors ${selectedUser ? "bg-base-300 ring-1 ring-base-300" : ""} `}
 				style={sx}
 			>
-				<img
-					src={image ? image : "src/assets/react.svg"}
-					alt=""
-					className={`rounded-full size-${sx ? "12" : "8"} bg-black object-cover`}
-				/>
+				<div className="relative">
+					<img
+						src={image ? image : "src/assets/react.svg"}
+						alt="img"
+						className={`rounded-full size-${sx ? "12" : "8"} bg-black object-cover ring-2 ring-gray-500`}
+					/>
+					{userStatus === "online"&&(
+						<span
+							className="absolute bg-green-500 size-3 bottom-0 right-0 rounded-full ring-2 ring-zinc-900"
+						/>
+					)}
+				</div>
 				<div className="flex flex-col">
 					<h3>{fullName}</h3>
 					<p>{userStatus}</p>
